@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 
-const usernamevalidation=z
+ const usernamevalidation=z
 .string()
 .min(3,{message:"Minimun Lenght is 3"})
 .max(30,{message:"Maximum Lenght is 30"})
