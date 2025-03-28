@@ -2,18 +2,41 @@ import { SendEmail } from "@/helpers/sendVerificationEmail";
 import dbconnection from "@/lib/dbConnect";
 import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import { NextResponse,NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // Flow is to check weather user exits or not if exist is verified or not if verified return with user exist if not then verify and
   // send email if user not exist then create and email
 
   try {
     await dbconnection();
-    const { username, email, password } = await req.json();
+    const body = await req.json();
+    console.log("123");
+    console.log(body);
+    const {username,email,password}=body
+
+    if(!(username|| email||password)){
+      return NextResponse.json(
+        {
+          message: "Credentials are required",
+          success: false,
+        },
+        { status: 402 }
+      );
+      
+    }
+
+    console.log("456");
+
     const verifycode = String(Math.floor(100000 + Math.random() * 100000 + 1));
 
+    console.log("456");
+
+
     const IsUserExists = await User.findOne({ email: email });
+
+    console.log("456");
+
 
     if (IsUserExists) {
       if (IsUserExists.isVerfied) {
@@ -72,7 +95,6 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.log("Error while creating a user" + error);
-
     return NextResponse.json(
       {
         message: "Error while creating a User",

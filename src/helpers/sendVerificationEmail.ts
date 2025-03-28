@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import { Apiresponse } from '../types/Apiresponse';
 
 
-const resend=new Resend()
+const resend=new Resend(process.env.RESEND_API!)
 
 
 export const SendEmail=async (username:string,verifytoken:string,email:string) :Promise<Apiresponse>=>{

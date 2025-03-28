@@ -47,7 +47,7 @@ export const GithubAccessTokenEmail = ({
         </Section>
 
         <Text style={footer}>
-          GitHub, Inc. ・88 Colin P Kelly Jr Street ・San Francisco, CA 94107
+          murtazadev, Inc. ・88 Colin P Kelly Jr Street ・San Francisco, CA 94107
         </Text>
       </Container>
     </Body>
