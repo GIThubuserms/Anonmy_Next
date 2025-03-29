@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface message extends Document {
   content: string;
-  craetedAt: number;
+  craetedAt: Date;
 }
 
 export interface user extends Document {
@@ -16,13 +16,13 @@ export interface user extends Document {
   message: message[];
 }
 
-const MessageSchema: Schema<message> = new Schema({
+ export const MessageSchema: Schema<message> = new Schema({
   content: {
     type: String,
     required: true,
   },
   craetedAt: {
-    type: Number,
+    type: Date,
     required: true,
   },
 });
@@ -56,8 +56,7 @@ const UserSchema: Schema<user> = new Schema({
   message: {
     type: [MessageSchema],
   },
-});
-
+},{timestamps:true});
 
 
 const User=(mongoose.models.User as mongoose.Model<user>)||mongoose.model<user>('User',UserSchema)
