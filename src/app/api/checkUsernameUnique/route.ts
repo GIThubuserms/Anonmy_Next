@@ -14,24 +14,31 @@ export const GET = async (req: NextRequest) => {
 
      const { searchParams } = new URL(req.url);
 
-
     const UsernameFromQuery = {
       username:searchParams.get("username"),
     };
   
     const ZodVerifiedUsername = UsernameSchema.safeParse(UsernameFromQuery);
-
+    if (!ZodVerifiedUsername.success) {
+      return Response.json(
+        {
+          success: false,
+          message:'Invalid query parameters',
+        }
+      );
+    }
+    
     const isUsernameExists = await User.findOne({
       $and: [{ username: ZodVerifiedUsername?.data?.username }, { isVerfied: true }],
     });
-
+console.log(isUsernameExists);
     if (isUsernameExists) {
       return NextResponse.json(
         {
           message: "Username is already taken",
           success: false,
         },
-        { status: 402 }
+      
       );
     }
 
@@ -40,7 +47,7 @@ export const GET = async (req: NextRequest) => {
         message: "Username is unique",
         success: true,
       },
-      { status: 200 }
+    
     );
   } catch (error) {
     console.log("Error in checking unique Username" + error);

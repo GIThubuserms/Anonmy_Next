@@ -1,11 +1,11 @@
 import dbconnection from "@/lib/dbConnect";
-import { NextRequest, NextResponse } from "next/server";
+import {NextResponse } from "next/server";
 import User from "@/models/user.model";
 import { getServerSession } from "next-auth";
 import { authoptions } from "../auth/[...nextauth]/options";
 import mongoose from "mongoose";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async () => {
 
   try {
     await dbconnection()

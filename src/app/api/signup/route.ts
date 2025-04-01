@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     await dbconnection();
     const body = await req.json();
-    console.log("123");
+   
     console.log(body);
     const {username,email,password}=body
 
@@ -56,6 +56,14 @@ export async function POST(req: NextRequest) {
       IsUserExists.verifycode = verifycode;
       IsUserExists.verfiycodeexpiry = currentdate;
       await IsUserExists.save();
+
+      return NextResponse.json(
+        {
+          message: "User already exists ",
+          success: false,
+        },
+
+      );
     }
 
     if (!IsUserExists) {
