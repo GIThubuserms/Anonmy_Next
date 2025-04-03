@@ -17,33 +17,37 @@ export const authoptions: NextAuthOptions = {
             async authorize(credentials):Promise<any> {
                 try {
                     await dbconnection()
+                    console.log("123");
+                    
+                    console.log(credentials?.email);
+                    console.log(credentials?.password);
+                    
                     if (!credentials?.email || !credentials?.password) {
-
+                        throw new Error("Credentials are required")
                     }
+                    
+                    console.log("123");
+
 
                     const isUserExist = await User.findOne({
                         $or: [{ email:credentials?.email }]
                     })
+                    console.log("123");
+
 
                     if (!isUserExist) {
-                        return NextResponse.json({
-                            message: "User Doesnot Exist",
-                            success: false
-                        }, { status: 404 })
+                        throw new Error("User Doesnot Exist")
                     }
+                    console.log("123");
+
                     if (!isUserExist?.isVerfied) {
-                        return NextResponse.json({
-                            message: "User Doesnot Verified",
-                            success: false
-                        }, { status: 403 })
+                        throw new Error("User is not verify")
                     }
                     const isPasswordCorrect=await bcrypt.compare(String(credentials?.password),isUserExist.password)
+                    console.log("123");
 
                     if(!isPasswordCorrect){
-                        return NextResponse.json({
-                            message: "User Password Incorrect",
-                            success: false
-                        }, { status: 406 })
+                        throw new Error("Password is incorrect")
                     }
                     
                     return isUserExist

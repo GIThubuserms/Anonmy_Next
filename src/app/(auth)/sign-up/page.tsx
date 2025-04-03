@@ -30,12 +30,7 @@ function Page() {
 
   const debounced = useDebounceCallback(setusername, 300);
   const form = useForm<z.infer<typeof signupschema>>({
-    resolver: zodResolver(signupschema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
+    resolver: zodResolver(signupschema)
   });
   useEffect(() => {
     if (username) {
@@ -86,7 +81,7 @@ function Page() {
         }
         if (response.data.success === true) {
           toast.success(response.data.message);
-          router.push(`/verifyuser/${username}`)
+          router.push(`/verify/${username}`)
         }
       }
     } catch (error) {
@@ -120,9 +115,11 @@ function Page() {
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
+                  
                       type="text"
                       placeholder="username"
                       {...field}
+                    
                       onChange={(e) => {
                         field.onChange(e);
                         debounced(e.target.value);

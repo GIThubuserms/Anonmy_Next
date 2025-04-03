@@ -12,6 +12,9 @@ export const POST = async (req: NextRequest) => {
   try {
     await dbconnection();
     const { username, UserverifyCode } = await req.json();
+    console.log(username+UserverifyCode);
+    
+    
 
     const isUserExist = await User.findOne({
       username: username,
@@ -23,20 +26,22 @@ export const POST = async (req: NextRequest) => {
           message: "User doesnot Exist",
           success: false,
         },
-        { status: 505 }
       );
     }
 
     const Correctcode = isUserExist.verifycode === UserverifyCode;
+    console.log(Correctcode);
+    
     const Correctexpiry = new Date(isUserExist.verfiycodeexpiry) > new Date() ;
+    console.log(Correctcode);
 
-    if (!Correctcode && !Correctexpiry) {
+   
+    if (!Correctcode || !Correctexpiry) {
       return NextResponse.json(
         {
           message: "Token expires or Incorrect",
           success: false,
-        },
-        { status: 505 }
+        }
       );
     }
 
@@ -48,7 +53,6 @@ export const POST = async (req: NextRequest) => {
         message: "User Verfied ",
         success: true,
       },
-      { status: 200 }
     );
   } catch (error) {
     console.log("Error in Verifying Code " + error);
@@ -57,7 +61,6 @@ export const POST = async (req: NextRequest) => {
         message: "Error in Verfying Code",
         success: false,
       },
-      { status: 505 }
     );
   }
 };
