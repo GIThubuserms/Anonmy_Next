@@ -31,8 +31,7 @@ export const DELETE = async (
         {
           message: "Message Not found",
           success: false,
-        },
-        { status: 403 }
+        }
       );
     }
 
@@ -40,8 +39,7 @@ export const DELETE = async (
         {
           message: "Message deleted sucessfully",
           success: true,
-        },
-        { status: 200 }
+        }
       );
 
 
@@ -51,8 +49,7 @@ export const DELETE = async (
       {
         message: "Error in deleting message",
         success: false,
-      },
-      { status: 505 }
+      }
     );
   }
 };
